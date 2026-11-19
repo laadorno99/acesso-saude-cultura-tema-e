@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acesso à Saúde e à Cultura — Tema E</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --azul-pastel: #dceeff;
+      --azul-borda: #9ec5eb;
+      --azul-texto: #2f5275;
+      --rosa-pastel: #ffe3ec;
+      --rosa-borda: #f3b5c8;
+      --rosa-texto: #7d3b52;
+      --amarelo-pastel: #fff4c9;
+      --amarelo-borda: #ebd27c;
+      --amarelo-texto: #6e5816;
+      --fundo: #fffdf9;
+      --cartao: #ffffff;
+      --texto: #3b3842;
+      --texto-suave: #6c6777;
+      --sombra: 0 10px 28px rgba(92, 82, 115, 0.08);
+      --raio: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background:
+        radial-gradient(circle at 10% 12%, var(--azul-pastel) 0%, transparent 32%),
+        radial-gradient(circle at 90% 16%, var(--rosa-pastel) 0%, transparent 34%),
+        radial-gradient(circle at 50% 95%, var(--amarelo-pastel) 0%, transparent 38%),
+        var(--fundo);
+      color: var(--texto);
+      line-height: 1.65;
+      min-height: 100vh;
+      padding: 28px 18px 60px;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    header.hero {
+      background: var(--cartao);
+      border: 2px solid var(--azul-borda);
+      border-radius: 28px;
+      padding: 32px 28px;
+      box-shadow: var(--sombra);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+
+    .badge-tema {
+      display: inline-block;
+      background: var(--amarelo-pastel);
+      color: var(--amarelo-texto);
+      border: 1px solid var(--amarelo-borda);
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    header.hero h1 {
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      color: var(--azul-texto);
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+
+    header.hero p.subtitulo {
+      font-size: 1.02rem;
+      color: var(--texto-suave);
+      max-width: 690px;
+    }
+
+    .ilustracao-topo {
+      position: absolute;
+      right: 18px;
+      bottom: 8px;
+      opacity: 0.94;
+      pointer-events: none;
+    }
+
+    @media (max-width: 720px) {
+      .ilustracao-topo {
+        display: none;
+      }
+    }
+
+    .questao-box {
+      margin-top: 20px;
+      background: var(--rosa-pastel);
+      border-left: 5px solid var(--rosa-borda);
+      border-radius: 16px;
+      padding: 14px 18px;
+      color: var(--rosa-texto);
+      font-size: 0.98rem;
+    }
+
+    .utilidade-nota {
+      margin-top: 12px;
+      background: var(--amarelo-pastel);
+      border-left: 5px solid var(--amarelo-borda);
+      border-radius: 16px;
+      padding: 12px 18px;
+      color: var(--amarelo-texto);
+      font-size: 0.92rem;
+    }
+
+    nav.menu-abas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .btn-aba {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      border: 2px solid transparent;
+      border-radius: 999px;
+      padding: 10px 18px;
+      cursor: pointer;
+      background: var(--cartao);
+      color: var(--texto);
+      box-shadow: 0 4px 12px rgba(92, 82, 115, 0.06);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .btn-aba:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-aba[data-tab="saude"] { border-color: var(--azul-borda); }
+    .btn-aba[data-tab="cultura"] { border-color: var(--rosa-borda); }
+    .btn-aba[data-tab="analise"] { border-color: var(--amarelo-borda); }
+    .btn-aba[data-tab="solucoes"] { border-color: var(--azul-borda); }
+    .btn-aba[data-tab="fontes"] { border-color: var(--rosa-borda); }
+
+    .btn-aba.ativo[data-tab="saude"],
+    .btn-aba.ativo[data-tab="solucoes"] {
+      background: var(--azul-pastel);
+      color: var(--azul-texto);
+    }
+
+    .btn-aba.ativo[data-tab="cultura"],
+    .btn-aba.ativo[data-tab="fontes"] {
+      background: var(--rosa-pastel);
+      color: var(--rosa-texto);
+    }
+
+    .btn-aba.ativo[data-tab="analise"] {
+      background: var(--amarelo-pastel);
+      color: var(--amarelo-texto);
+    }
+
+    .painel {
+      display: none;
+      animation: surgir 0.25s ease;
+    }
+
+    .painel.ativo {
+      display: block;
+    }
+
+    @keyframes surgir {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .cartao {
+      background: var(--cartao);
+      border-radius: var(--raio);
+      padding: 22px 24px;
+      box-shadow: var(--sombra);
+      border: 1.5px solid #efeaf5;
+    }
+
+    .cartao.pastel-azul {
+      background: linear-gradient(180deg, #ffffff 0%, #f4faff 100%);
+      border-color: var(--azul-borda);
+    }
+
+    .cartao.pastel-rosa {
+      background: linear-gradient(180deg, #ffffff 0%, #fff6f9 100%);
+      border-color: var(--rosa-borda);
+    }
+
+    .cartao.pastel-amarelo {
+      background: linear-gradient(180deg, #ffffff 0%, #fffdf2 100%);
+      border-color: var(--amarelo-borda);
+    }
+
+    .cartao h2 {
+      font-size: 1.65rem;
+      margin-bottom: 8px;
+      color: var(--texto);
+    }
+
+    .tag-territorios {
+      display: inline-block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: var(--amarelo-pastel);
+      color: var(--amarelo-texto);
+      margin-bottom: 12px;
+    }
+
+    .comparacao-blocos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 12px 0;
+    }
+
+    @media (max-width: 600px) {
+      .comparacao-blocos {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .box-local {
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: 14px;
+      padding: 12px 14px;
+      border: 1px dashed #d3c9df;
+    }
+
+    .box-local strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    .fonte-rodape {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid #ece7f2;
+      font-size: 0.84rem;
+      color: var(--texto-suave);
+      font-weight: 600;
+    }
+
+    ul.lista-cuidada {
+      padding-left: 18px;
+      margin-top: 8px;
+    }
+
+    ul.lista-cuidada li {
+      margin-bottom: 8px;
+    }
+
+    .barra-filtro {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 16px;
+      background: var(--cartao);
+      padding: 12px 16px;
+      border-radius: 16px;
+      border: 1px solid #ece7f2;
+    }
+
+    .btn-filtro {
+      border: 1px solid #d8d0e3;
+      background: #faf8fd;
+      color: var(--texto);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-filtro.ativo {
+      background: var(--azul-pastel);
+      border-color: var(--azul-borda);
+      color: var(--azul-texto);
+    }
+
+    .ilustracao-rodape {
+      display: flex;
+      justify-content: center;
+      margin-top: 22px;
+    }
+
+    footer.rodape-final {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 0.86rem;
+      color: var(--texto-suave);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <span class="badge-tema">TEMA E · ACESSO À SAÚDE E À CULTURA</span>
+      <h1>Acesso à Saúde e à Cultura em Portugal</h1>
+      <p class="subtitulo">
+        Contrastes territoriais a diferentes escalas (regiões e municípios) reunidos num único espaço interativo para consultar e explorar tudo de forma simples.
+      </p>
+
+      <!-- Desenho ilustrativo suave em azul, rosa e amarelo pastel -->
+      <svg class="ilustracao-topo" width="165" height="115" viewBox="0 0 165 115" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="38" cy="58" r="30" fill="#dceeff" stroke="#9ec5eb" stroke-width="2"/>
+        <path d="M38 45V71M25 58H51" stroke="#2f5275" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="98" cy="42" r="24" fill="#ffe3ec" stroke="#f3b5c8" stroke-width="2"/>
+        <path d="M89 50V36L107 32V46" stroke="#7d3b52" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="89" cy="50" r="3.5" fill="#7d3b52"/>
+        <circle cx="107" cy="46" r="3.5" fill="#7d3b52"/>
+        <circle cx="132" cy="78" r="18" fill="#fff4c9" stroke="#ebd27c" stroke-width="2"/>
+        <path d="M132 69L134.6 74.8L141 75.5L136.2 79.8L137.6 86L132 82.8L126.4 86L127.8 79.8L123 75.5L129.4 74.8L132 69Z" fill="#6e5816"/>
+      </svg>
+
+      <div class="questao-box">
+        <strong>Questão central:</strong> Todos os habitantes têm condições semelhantes para aceder a cuidados de saúde e atividades culturais?
+      </div>
+
+      <div class="utilidade-nota">
+        <strong>Por que razão este formato é útil?</strong> Permite ver tudo num só lugar de forma interativa, alternando entre temas e focos sem depender apenas de uma ordem fixa de slides.
+      </div>
+    </header>
+
+    <nav class="menu-abas" aria-label="Navegação do produto digital">
+      <button class="btn-aba ativo" data-tab="saude" onclick="abrirAba('saude')">Saúde</button>
+      <button class="btn-aba" data-tab="cultura" onclick="abrirAba('cultura')">Cultura</button>
+      <button class="btn-aba" data-tab="analise" onclick="abrirAba('analise')">Diferenças e Limitações</button>
+      <button class="btn-aba" data-tab="solucoes" onclick="abrirAba('solucoes')">Propostas de Solução</button>
+      <button class="btn-aba" data-tab="fontes" onclick="abrirAba('fontes')">Fontes e Metodologia</button>
+    </nav>
+
+    <!-- SAÚDE -->
+    <section id="saude" class="painel ativo">
+      <div class="barra-filtro">
+        <span style="font-size:0.88rem;font-weight:700;">Filtrar leitura:</span>
+        <button class="btn-filtro ativo" onclick="filtrarSaude('todos', this)">Todos os indicadores</button>
+        <button class="btn-filtro" onclick="filtrarSaude('rede', this)">Hospitais e profissionais</button>
+        <button class="btn-filtro" onclick="filtrarSaude('proximidade', this)">Cuidados de proximidade</button>
+      </div>
+
+      <div class="grid-2">
+        <article class="cartao pastel-azul card-saude" data-categoria="rede">
+          <span class="tag-territorios">Grande Lisboa vs. Alentejo</span>
+          <h2>Hospitais e rede hospitalar</h2>
+          <div class="comparacao-blocos">
+            <div class="box-local">
+              <strong>Grande Lisboa</strong>
+              <p style="font-size:0.88rem;">Elevada concentração de hospitais centrais e universitários próximos entre si (ex.: Hospital de Santa Maria, Lisboa).</p>
+            </div>
+            <div class="box-local">
+              <strong>Alentejo</strong>
+              <p style="font-size:0.88rem;">Rede assente em hospitais regionais mais distantes entre si, exigindo deslocações maiores entre concelhos (ex.: Hospital do Espírito Santo, Évora).</p>
+            </div>
+          </div>
+          <p class="fonte-rodape">Fontes de referência: PORDATA e INE (ano da série estatística consultada)</p>
+        </article>
+
+        <article class="cartao pastel-amarelo card-saude" data-categoria="rede">
+          <span class="tag-territorios">Porto vs. Penafiel</span>
+          <h2>Profissionais de saúde</h2>
+          <div class="comparacao-blocos">
+            <div class="box-local">
+              <strong>Porto</strong>
+              <p style="font-size:0.88rem;">Polo universitário e hospitalar de referência com maior concentração de equipas e especialistas (ex.: CHU de São João).</p>
+            </div>
+            <div class="box-local">
+              <strong>Penafiel</strong>
+              <p style="font-size:0.88rem;">Concelho de referência regional para uma área alargada, com menor disponibilidade local direta por habitante.</p>
+            </div>
+          </div>
+          <p class="fonte-rodape">Fontes de referência: INE e PORDATA (ano da série estatística consultada)</p>
+        </article>
+      </div>
+
+      <article class="cartao pastel-rosa card-saude" data-categoria="proximidade">
+        <span class="tag-territorios">Proximidade e cuidados primários</span>
+        <h2>Médico de família, farmácias e deslocações</h2>
+        <div class="comparacao-blocos">
+          <div class="box-local">
+            <strong>Áreas de maior densidade e procura</strong>
+            <p style="font-size:0.88rem;">A pressão demográfica e o crescimento urbano podem dificultar a cobertura imediata de médico de família apesar da proximidade física.</p>
+          </div>
+          <div class="box-local">
+            <strong>Áreas de menor densidade e maior distância</strong>
+            <p style="font-size:0.88rem;">A distância aos centros de saúde, farmácias e urgências torna o tempo de viagem um fator decisivo no acesso quotidiano.</p>
+          </div>
+        </div>
+        <p class="fonte-rodape">Fontes de referência: SNS / Portal da Transparência e PORDATA (ano consultado)</p>
+      </article>
+    </section>
+
+    <!-- CULTURA -->
+    <section id="cultura" class="painel">
+      <div class="grid-2">
+        <article class="cartao pastel-rosa">
+          <span class="tag-territorios">Braga vs. Bragança</span>
+          <h2>Museus e equipamentos culturais</h2>
+          <div class="comparacao-blocos">
+            <div class="box-local">
+              <strong>Braga</strong>
+              <p style="font-size:0.88rem;">Rede mais densa de museus, património e salas culturais num espaço mais compacto e com maior procura regular.</p>
+            </div>
+            <div class="box-local">
+              <strong>Bragança</strong>
+              <p style="font-size:0.88rem;">Equipamentos de referência concentrados na sede de distrito, com maior distância a vencer a partir das freguesias rurais.</p>
+            </div>
+          </div>
+          <p class="fonte-rodape">Fontes de referência: INE (Estatísticas da Cultura), PORDATA e portais autárquicos</p>
+        </article>
+
+        <article class="cartao pastel-azul">
+          <span class="tag-territorios">Coimbra vs. Odemira</span>
+          <h2>Bibliotecas e espetáculos ao vivo</h2>
+          <div class="comparacao-blocos">
+            <div class="box-local">
+              <strong>Coimbra</strong>
+              <p style="font-size:0.88rem;">Oferta cultural contínua, bibliotecas e programação de espetáculos ao vivo mais acessível no dia a dia.</p>
+            </div>
+            <div class="box-local">
+              <strong>Odemira</strong>
+              <p style="font-size:0.88rem;">Grande extensão territorial e população dispersa que tornam mais demorado o acesso regular a salas e atividades culturais.</p>
+            </div>
+          </div>
+          <p class="fonte-rodape">Fontes de referência: INE (Estatísticas da Cultura), PORDATA e portais autárquicos</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- DIFERENÇAS E LIMITAÇÕES -->
+    <section id="analise" class="painel">
+      <div class="grid-2">
+        <article class="cartao pastel-amarelo">
+          <h2>Análise das diferenças e qualidade de vida</h2>
+          <ul class="lista-cuidada">
+            <li><strong>Densidade e rede de transportes:</strong> Os grandes centros concentram serviços especializados e programação frequente, enquanto zonas extensas ou de interior enfrentam maiores distâncias e menos opções de mobilidade.</li>
+            <li><strong>Impacto quotidiano:</strong> Quando o acesso exige viagens longas ou depende de horários limitados, a qualidade de vida e a participação cultural sentem diferenças reais.</li>
+          </ul>
+        </article>
+
+        <article class="cartao pastel-rosa">
+          <h2>Limitações da pesquisa</h2>
+          <ul class="lista-cuidada">
+            <li><strong>Atualização e revisão dos dados:</strong> Nem todos os indicadores têm a mesma periodicidade ou podem surgir como provisórios consoante a base consultada.</li>
+            <li><strong>Rácios vs. distância real:</strong> Um indicador proporcional por população não mostra por si só os quilómetros percorridos nem o tempo gasto em deslocações.</li>
+            <li><strong>Cultura local fora das estatísticas:</strong> Festas populares, associações, bandas filarmónicas e iniciativas comunitárias nem sempre aparecem nos registos oficiais.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- PROPOSTAS DE SOLUÇÃO -->
+    <section id="solucoes" class="painel">
+      <article class="cartao pastel-azul">
+        <h2>Propostas de solução ou melhoria</h2>
+        <ul class="lista-cuidada">
+          <li><strong>Equipas móveis sociossanitárias:</strong> Rotas regulares de proximidade para apoiar localidades mais isoladas e reduzir deslocações desnecessárias.</li>
+          <li><strong>Articulação entre cultura e mobilidade local:</strong> Bilhetes ou transportes de ligação que aproximem freguesias e zonas periféricas de bibliotecas, museus e espetáculos.</li>
+          <li><strong>Programação cultural descentralizada e digital:</strong> Atividades em escolas, centros comunitários e formatos interativos para alargar o acesso a quem vive longe dos grandes polos.</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- FONTES E METODOLOGIA -->
+    <section id="fontes" class="painel">
+      <article class="cartao pastel-amarelo">
+        <h2>Fontes oficiais e estratégia de comparação</h2>
+        <ul class="lista-cuidada">
+          <li><strong>PORDATA:</strong> Base de dados estatísticos para indicadores de saúde, demografia e cultura (com identificação do ano dos dados consultados).</li>
+          <li><strong>INE (Instituto Nacional de Estatística):</strong> Censos, Estatísticas da Saúde e Estatísticas da Cultura.</li>
+          <li><strong>SNS / Portal da Transparência:</strong> Informação sobre a rede de cuidados de saúde e cobertura assistencial.</li>
+          <li><strong>Sites oficiais das autarquias:</strong> Consulta complementar de equipamentos e iniciativas locais.</li>
+          <li><strong>Abordagem territorial:</strong> Comparação entre territórios contrastantes em diferentes indicadores para evitar repetir sempre os mesmos dois locais.</li>
+        </ul>
+      </article>
+    </section>
+
+    <div class="ilustracao-rodape" aria-hidden="true">
+      <svg width="240" height="44" viewBox="0 0 240 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="10" width="66" height="24" rx="12" fill="#dceeff" stroke="#9ec5eb"/>
+        <rect x="87" y="10" width="66" height="24" rx="12" fill="#ffe3ec" stroke="#f3b5c8"/>
+        <rect x="164" y="10" width="66" height="24" rx="12" fill="#fff4c9" stroke="#ebd27c"/>
+        <circle cx="43" cy="22" r="4" fill="#2f5275"/>
+        <circle cx="120" cy="22" r="4" fill="#7d3b52"/>
+        <circle cx="197" cy="22" r="4" fill="#6e5816"/>
+      </svg>
+    </div>
+
+    <footer class="rodape-final">
+      Tema E · Acesso à Saúde e à Cultura · Produto digital interativo de consulta rápida.
+    </footer>
+  </div>
+
+  <script>
+    function abrirAba(idAba) {
+      document.querySelectorAll('.painel').forEach(sec => sec.classList.remove('ativo'));
+      document.querySelectorAll('.btn-aba').forEach(btn => btn.classList.remove('ativo'));
+      document.getElementById(idAba).classList.add('ativo');
+      document.querySelector(`.btn-aba[data-tab="${idAba}"]`).classList.add('ativo');
+    }
+
+    function filtrarSaude(categoria, botaoClicado) {
+      document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('ativo'));
+      botaoClicado.classList.add('ativo');
+      document.querySelectorAll('.card-saude').forEach(card => {
+        if (categoria === 'todos' || card.dataset.categoria === categoria) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
